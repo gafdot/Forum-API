@@ -1,4 +1,4 @@
-package br.com.guigas.forum.config.security;
+package br.com.guigas.forum.service;
 
 import java.util.Optional;
 
@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.guigas.forum.model.User;
+import br.com.guigas.forum.repository.UserRepository;
 
 @Service
 public class AuthenticationService implements UserDetailsService {

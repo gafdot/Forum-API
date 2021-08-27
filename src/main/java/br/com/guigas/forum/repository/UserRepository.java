@@ -1,4 +1,4 @@
-package br.com.guigas.forum.config.security;
+package br.com.guigas.forum.repository;
 
 import java.util.Optional;
 
