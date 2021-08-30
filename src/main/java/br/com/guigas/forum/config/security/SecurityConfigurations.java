@@ -42,17 +42,25 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers(HttpMethod.GET, "/topics").permitAll()
-				.antMatchers(HttpMethod.GET, "/topics/*").permitAll().antMatchers(HttpMethod.GET, "/actuator")
-				.permitAll().antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/auth").permitAll().anyRequest().authenticated().and().csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		http
+			.authorizeRequests()
+				.antMatchers(HttpMethod.GET, "/topics").permitAll()
+				.antMatchers(HttpMethod.GET, "/topics/*").permitAll()
+				.antMatchers(HttpMethod.GET, "/actuator").permitAll()
+				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/auth").permitAll()
+				.anyRequest().authenticated()
+				.and()
+				.csrf().disable()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
 				.addFilterBefore(new TokenAutheticationFilter(tokenService, userRepository),
 						UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-
+		web.ignoring().antMatchers("/**.html**", "/v2/**", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
 }
