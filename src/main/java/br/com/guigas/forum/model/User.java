@@ -27,7 +27,7 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Profile> profiles = new ArrayList<>();
+	private List<Role> roles = new ArrayList<>();
 
 	@Override
 	public int hashCode() {
@@ -107,7 +107,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return profiles;
+		return roles;
 	}
 
 	@Override

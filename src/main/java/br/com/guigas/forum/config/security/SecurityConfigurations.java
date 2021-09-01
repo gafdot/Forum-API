@@ -3,6 +3,7 @@ package br.com.guigas.forum.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +21,7 @@ import br.com.guigas.forum.service.TokenService;
 
 @EnableWebSecurity
 @Configuration
+@Profile("prod")
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -53,13 +55,13 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
-				.anyRequest().permitAll()
-				.and()
-				.csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-				.addFilterBefore(new TokenAutheticationFilter(tokenService, userRepository),
-						UsernamePasswordAuthenticationFilter.class);
+				.anyRequest().authenticated()
+			.and()
+			.csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.addFilterBefore(new TokenAutheticationFilter(tokenService, userRepository),
+					UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override
