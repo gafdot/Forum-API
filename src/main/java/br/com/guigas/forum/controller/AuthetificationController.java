@@ -20,7 +20,7 @@ import br.com.guigas.forum.service.TokenService;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("prod")
+@Profile(value={"prod", "test"})
 public class AuthetificationController {
 
 	@Autowired
